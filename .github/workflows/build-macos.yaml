@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v4
@@ -29,7 +29,7 @@ jobs:
           pyinstaller --onefile --console --hidden-import=yadisk.sessions --hidden-import=yadisk.sessions.requests_session yandex_disk_publisher2.py
           
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: macos-executable
           path: dist/yandex_disk_publisher2
