@@ -56,16 +56,11 @@ def publish_image(client, image):
     return public_url
 
 def get_unique_filename(base_path, base_name, extension):
-    counter = 0
-    while True:
-        if counter == 0:
-            filename = f"{base_name}.{extension}"
-        else:
-            filename = f"{base_name}{counter}.{extension}"
-        full_path = os.path.join(base_path, filename)
-        if not os.path.exists(full_path):
-            return full_path
-        counter += 1
+
+    filename = f"{base_name}.{extension}"
+    full_path = os.path.join(base_path, filename)
+    return full_path
+
 
 def main():
     token = input("Введите OAuth токен: ").strip()
@@ -74,7 +69,7 @@ def main():
         script_dir = os.path.dirname(sys.executable)
     else:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-    output_filename = get_unique_filename(script_dir, "published_images", "csv")
+    output_filename = get_unique_filename(script_dir, folder_url.replace("/", "-"), "csv")
 
     client = yadisk.Client(token=token)
     if not client.check_token():
