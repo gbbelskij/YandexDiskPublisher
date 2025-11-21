@@ -69,7 +69,7 @@ def main():
         script_dir = os.path.dirname(sys.executable)
     else:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-    last_three_repos = folder_url.split("/")[-3:]
+    last_three_repos = folder_url.split("/")[-2:]
     output_name = ""
     for i in last_three_repos:
         output_name += i + "-"
