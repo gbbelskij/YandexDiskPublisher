@@ -69,7 +69,11 @@ def main():
         script_dir = os.path.dirname(sys.executable)
     else:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-    output_filename = get_unique_filename(script_dir, folder_url.replace("/", "-"), "csv")
+    last_three_repos = folder_url.split("/")[-3:]
+    output_name = ""
+    for i in last_three_repos:
+        output_name += i + "-"
+    output_filename = get_unique_filename(script_dir, output_name.strip("-"), "csv")
 
     client = yadisk.Client(token=token)
     if not client.check_token():
