@@ -1,0 +1,35 @@
+name: Build macOS executable
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install yadisk requests pyinstaller
+
+      - name: Build executable with PyInstaller
+        run: |
+          pyinstaller --onefile --console --hidden-import=yadisk.sessions --hidden-import=yadisk.sessions.requests_session yandex_disk_publisher2.py
+          
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-executable
+          path: dist/yandex_disk_publisher2
