@@ -6,6 +6,7 @@ import re
 import os
 import sys
 
+
 def extract_path_from_url(url):
     match = re.search(r'/d/[^/]+(/.*)?$', url)
     if match and match.group(1):
@@ -15,6 +16,7 @@ def extract_path_from_url(url):
     if url.startswith('/'):
         return url
     return '/' + url
+
 
 def publish_with_retry(client, file, wait, max_retries=3):
     for attempt in range(max_retries):
@@ -35,6 +37,7 @@ def publish_with_retry(client, file, wait, max_retries=3):
             return f"ERROR: {str(e)}", wait
     return "ERROR: Max retries exceeded", wait
 
+
 def get_images_from_folder(client, folder_path):
     images = []
     try:
@@ -50,10 +53,12 @@ def get_images_from_folder(client, folder_path):
         print(f"Ошибка при чтении папки {folder_path}: {e}")
     return images
 
+
 def publish_image(client, image):
     wait = 0.01
     public_url, wait = publish_with_retry(client, image, wait)
     return public_url
+
 
 def get_unique_filename(base_path, base_name, extension):
 
@@ -88,7 +93,7 @@ def main():
         return
 
     results = []
-    max_workers = 3
+    max_workers = 1
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = [executor.submit(publish_image, client, img) for img in images]
         for idx, future in enumerate(concurrent.futures.as_completed(futures), 1):
